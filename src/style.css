@@ -14,6 +14,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-html {
-  @apply bg-[#020202];
+body {
+  @apply m-0 min-h-screen bg-white-brand p-0;
 }
