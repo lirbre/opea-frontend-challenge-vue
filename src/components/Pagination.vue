@@ -1,23 +1,24 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-
-const page = ref(1)
 
 const router = useRouter()
 const currentRoute = useRoute()
+
+const maxPages = 10
+const initialPage = window.location.search.split('?page=')[1]
+const page = ref(Number(initialPage ?? 1))
 
 const nextPage = () => {
   let updatedQuery = { ...currentRoute.query }
 
   if (page.value) {
+    page.value++
     updatedQuery.page = String(page.value)
   } else {
     delete updatedQuery.page
   }
   const updatedRoute = { ...currentRoute, query: updatedQuery }
-
-  page.value++
 
   router.replace(updatedRoute)
 }
@@ -25,19 +26,28 @@ const nextPage = () => {
 const previousPage = () => {
   let updatedQuery = { ...currentRoute.query }
 
-  if (page.value - 1 === 0) return
-
-  if (page.value) {
+  if (page.value - 1 !== 0) {
+    page.value--
     updatedQuery.page = String(page.value)
   } else {
     delete updatedQuery.page
   }
   const updatedRoute = { ...currentRoute, query: updatedQuery }
 
-  page.value--
-
   router.replace(updatedRoute)
 }
+
+// guarantes that nextPage always is lesser than maxPages onMounted
+onMounted(() => {
+  if (page.value > maxPages) {
+    let updatedQuery = { ...currentRoute.query, page: maxPages }
+    const updatedRoute = { ...currentRoute, query: updatedQuery }
+
+    page.value = maxPages
+
+    router.replace(updatedRoute)
+  }
+})
 </script>
 
 <template>
@@ -58,6 +68,7 @@ const previousPage = () => {
     </div>
     <button
       @click="nextPage"
+      :disabled="page === maxPages"
       className="enabled:text-wine-brand enabled:hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
     >
       &#x2192;
