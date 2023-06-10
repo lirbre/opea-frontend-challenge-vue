@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { getUrlParams } from '../composable/getUrlParam';
 
-const search = ref('')
+const { search: initialSearch } = getUrlParams(window.location.search)
+const search = ref(initialSearch ?? '')
 
 const router = useRouter()
 const currentRoute = useRoute()

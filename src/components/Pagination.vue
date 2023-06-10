@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { getUrlParams } from '../composable/getUrlParam';
 
 const router = useRouter()
 const currentRoute = useRoute()
 
 const maxPages = 10
-const initialPage = window.location.search.split('?page=')[1]
+const { page: initialPage } = getUrlParams(window.location.search)
 const page = ref(Number(initialPage ?? 1))
 
 const nextPage = () => {
