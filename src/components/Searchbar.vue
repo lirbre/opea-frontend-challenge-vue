@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { getUrlParams } from '../composable/getUrlParam';
+import { useCompanyList } from '../composable/useCompanyList';
 
 const { search: initialSearch } = getUrlParams(window.location.search)
 const search = ref(initialSearch ?? '')
@@ -9,9 +10,13 @@ const search = ref(initialSearch ?? '')
 const router = useRouter()
 const currentRoute = useRoute()
 
+const { refetchData } = useCompanyList()
+
 const updateRoute = (e: Event) => {
   e.preventDefault()
   let updatedQuery = { ...currentRoute.query }
+
+  refetchData(search.value)
 
   if (search.value) {
     updatedQuery.search = search.value

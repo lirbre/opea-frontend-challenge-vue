@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { CompanyStore } from '../composable/CompanyStore';
 import { getUrlParams } from '../composable/getUrlParam';
 
 const router = useRouter()
 const currentRoute = useRoute()
 
-const maxPages = 10
+const maxPages = ref(CompanyStore.loading ? 1 : Math.ceil(CompanyStore.company.length / CompanyStore.limit))
+
 const { page: initialPage } = getUrlParams(window.location.search)
 const page = ref(Number(initialPage ?? 1))
 
@@ -40,11 +42,22 @@ const previousPage = () => {
 
 // guarantes that nextPage always is lesser than maxPages onMounted
 onMounted(() => {
-  if (page.value > maxPages) {
-    let updatedQuery = { ...currentRoute.query, page: maxPages }
+  if (page.value < 1) {
+    page.value = 1
+
+    let updatedQuery = { ...currentRoute.query, page: maxPages.value }
     const updatedRoute = { ...currentRoute, query: updatedQuery }
 
-    page.value = maxPages
+    page.value = 1
+
+    router.replace(updatedRoute)
+  }
+
+  if (page.value > maxPages.value) {
+    let updatedQuery = { ...currentRoute.query, page: maxPages.value }
+    const updatedRoute = { ...currentRoute, query: updatedQuery }
+
+    page.value = maxPages.value
 
     router.replace(updatedRoute)
   }
@@ -56,6 +69,7 @@ onMounted(() => {
     className="flex items-center justify-center gap-1.5 rounded-opea border-2 border-gray-input bg-white-brand p-0.5 px-2.5"
   >
     <button
+      aria-label="Previous page"
       @click="previousPage"
       :disabled="page === 1"
       className="enabled:text-wine-brand enabled:hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
@@ -68,6 +82,7 @@ onMounted(() => {
       {{ page }}
     </div>
     <button
+      aria-label="Next page"
       @click="nextPage"
       :disabled="page === maxPages"
       className="enabled:text-wine-brand enabled:hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
