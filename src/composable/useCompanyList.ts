@@ -1,4 +1,4 @@
-import { CompanyAPI } from './company'
+import { CompanyAPI, CompanyForm } from './company'
 import { CompanyStore } from './stores/CompanyStore'
 
 export const useCompanyList = () => {
@@ -31,5 +31,21 @@ export const useCompanyList = () => {
     })
   }
 
-  return { fetchData, refetchData }
+  const createCompany = async (body: Zod.infer<typeof CompanyForm>) => {
+    try {
+      await fetch('https://homolog.planetasec.com.br/prova/front/api/clients', {
+        body: JSON.stringify({ ...body }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    } finally {
+      refetchData()
+    }
+  }
+
+  return { fetchData, refetchData, createCompany }
 }

@@ -1,25 +1,38 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { CompanyForm } from '../../composable/company'
 import { ModalStore } from '../../composable/stores/ModalStore'
+import { useCompanyList } from '../../composable/useCompanyList'
 import useForm from '../../composable/useForm'
 
 const router = useRouter()
 const currentRoute = useRoute()
 
-const { errors, submitForm } = useForm(CompanyForm, () => {})
+const cnpj = ref('')
+const email = ref('')
+const name = ref('')
 
-const open = computed(() => ModalStore.create)
+const { createCompany } = useCompanyList()
+
+const { errors, submitForm } = useForm(CompanyForm, (values) => {
+  createCompany(values)
+
+  cnpj.value = ''
+  email.value = ''
+  name.value = ''
+})
 
 const handleSubmit = (e: Event) => {
   e.preventDefault()
   submitForm({
-    cnpj: '',
-    email: '',
-    name: ''
+    cnpj: cnpj.value,
+    email: email.value,
+    name: name.value
   })
 }
+
+const open = computed(() => ModalStore.create)
 
 const clearCreate = () => {
   if (!ModalStore.create) return
@@ -67,6 +80,7 @@ const clearCreate = () => {
       <div className="flex flex-col gap-1 px-6">
         <label htmlFor="company-name" className="text-wine-brand"> Nome </label>
         <input
+          v-model="name"
           name="company-name"
           className="border-2 border-gray-input p-2"
           placeholder="Digite o nome"
@@ -78,6 +92,7 @@ const clearCreate = () => {
       <div className="flex flex-col gap-1 px-6">
         <label htmlFor="company-cnpj" className="text-wine-brand"> CNPJ </label>
         <input
+          v-model="cnpj"
           name="company-cnpj"
           className="border-2 border-gray-input p-2"
           placeholder="Digite o CNPJ"
@@ -92,6 +107,7 @@ const clearCreate = () => {
           E-mail
         </label>
         <input
+          v-model="email"
           name="company-email"
           className="border-2 border-gray-input p-2"
           placeholder="Digite o e-mail"
