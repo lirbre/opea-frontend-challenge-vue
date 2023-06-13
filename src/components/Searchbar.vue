@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { getUrlParams } from '../composable/getUrlParam';
-import { useCompanyList } from '../composable/useCompanyList';
+import { getUrlParams } from '../composable/getUrlParam'
+import { useCompanyList } from '../composable/useCompanyList'
 
 const { search: initialSearch } = getUrlParams(window.location.search)
 const search = ref(initialSearch ?? '')

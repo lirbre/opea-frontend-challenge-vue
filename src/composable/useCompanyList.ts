@@ -1,8 +1,9 @@
-import { CompanyStore } from "./CompanyStore"
+import { CompanyStore } from './CompanyStore'
 
 export const useCompanyList = () => {
-   const fetchData = async (search?: string) => {
-    fetch( `https://homolog.planetasec.com.br/prova/front/api/clients${
+  const fetchData = async (search?: string) => {
+    fetch(
+      `https://homolog.planetasec.com.br/prova/front/api/clients${
         search ? '?text=' + search : ''
       }`
     ).then(async (res) => {
@@ -11,10 +12,11 @@ export const useCompanyList = () => {
       CompanyStore.company = data
       CompanyStore.loading = false
     })
-   }
+  }
 
-   const refetchData = async (search?: string) => {
-    fetch( `https://homolog.planetasec.com.br/prova/front/api/clients${
+  const refetchData = async (search?: string) => {
+    fetch(
+      `https://homolog.planetasec.com.br/prova/front/api/clients${
         search ? '?text=' + search : ''
       }`
     ).then(async (res) => {
@@ -22,7 +24,7 @@ export const useCompanyList = () => {
 
       CompanyStore.company = data
     })
-   }
+  }
 
-   return { fetchData, refetchData }
-}   
+  return { fetchData, refetchData }
+}

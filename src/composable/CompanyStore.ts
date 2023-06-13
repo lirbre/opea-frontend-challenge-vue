@@ -7,8 +7,8 @@ export const CompanyStore = reactive<{
   search: string
   limit: number
 }>({
-    company: [],
-    loading: true,
-    search: '',
-    limit: 12
+  company: [],
+  loading: true,
+  search: '',
+  limit: 12
 })

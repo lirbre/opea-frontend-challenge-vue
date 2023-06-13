@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { CompanyStore } from '../composable/CompanyStore';
-import { getUrlParams } from '../composable/getUrlParam';
+import { CompanyStore } from '../composable/CompanyStore'
+import { getUrlParams } from '../composable/getUrlParam'
 
 const router = useRouter()
 const currentRoute = useRoute()
 
-const maxPages = ref(CompanyStore.loading ? 1 : Math.ceil(CompanyStore.company.length / CompanyStore.limit))
+const maxPages = ref(
+  CompanyStore.loading
+    ? 1
+    : Math.ceil(CompanyStore.company.length / CompanyStore.limit)
+)
 
 const { page: initialPage } = getUrlParams(window.location.search)
 const page = ref(Number(initialPage ?? 1))
