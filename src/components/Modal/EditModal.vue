@@ -128,6 +128,7 @@ const handleDelete = () => {
           className="border-2 border-gray-input p-2"
           v-model="email"
           placeholder="Digite o e-mail"
+          type="email"
         />
       </div>
       <span v-show="errors?.email" className="px-6 text-sm text-wine-brand">{{
