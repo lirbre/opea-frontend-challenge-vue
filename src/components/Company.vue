@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { useRoute, useRouter } from 'vue-router'
 import { maskCnpj } from '../composable/maskCnpj'
-import { CompanyAPI } from '../composable/company'
+import { CompanyType } from '../composable/company'
 import { ModalStore } from '../composable/stores/ModalStore'
 import { onMounted } from 'vue'
 import { getUrlParams } from '../composable/getUrlParam'
 import { CompanyStore } from '../composable/stores/CompanyStore'
 
 const props = defineProps<{
-  company: Zod.infer<typeof CompanyAPI>[number]
+  company: CompanyType
 }>()
 
 const router = useRouter()

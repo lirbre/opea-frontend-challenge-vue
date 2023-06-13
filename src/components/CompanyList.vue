@@ -7,12 +7,21 @@ import CompanyEmpty from './CompanyEmpty.vue'
 import CompanyLoading from './CompanyLoading.vue'
 import { useCompanyList } from '../composable/useCompanyList'
 import { getUrlParams } from '../composable/getUrlParam'
+import { ModalStore } from '../composable/stores/ModalStore'
 
 const { fetchData } = useCompanyList()
 
-const { search: initialSearch } = getUrlParams(window.location.search)
+const { search: initialSearch, edit } = getUrlParams(window.location.search)
 
-onMounted(() => fetchData(initialSearch))
+onMounted(() =>
+  fetchData(initialSearch).then((res) => {
+    if (edit) {
+      console.log('editing', edit)
+      ModalStore.edit = true
+      CompanyStore.selectedCompany = res.filter((item) => (item.id = edit))
+    }
+  })
+)
 </script>
 
 <template>
@@ -43,7 +52,7 @@ onMounted(() => fetchData(initialSearch))
       leave-active-class="duration-200 ease-in"
       leave-from-class="opacity-100"
       leave-to-class="transform opacity-0"
-      class="mt-1.5 flex w-full flex-col gap-1.5"
+      class="flex w-full flex-col gap-1.5"
     >
       <Company
         v-for="company in CompanyStore.company"

@@ -1,32 +1,14 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { CompanyForm } from '../../composable/company'
 import { CompanyStore } from '../../composable/stores/CompanyStore'
 import { ModalStore } from '../../composable/stores/ModalStore'
+import { useCompanyList } from '../../composable/useCompanyList'
 import useForm from '../../composable/useForm'
 
 const router = useRouter()
 const currentRoute = useRoute()
-
-const { errors, submitForm } = useForm(CompanyForm, () => {})
-
-const open = computed(
-  () =>
-    ModalStore.edit &&
-    CompanyStore.selectedCompany[0].name &&
-    CompanyStore.selectedCompany[0].email &&
-    CompanyStore.selectedCompany[0].cnpj
-)
-
-const handleSubmit = (e: Event) => {
-  e.preventDefault()
-  submitForm({
-    cnpj: '',
-    email: '',
-    name: ''
-  })
-}
 
 const clearEdit = () => {
   if (!ModalStore.edit) return
@@ -39,6 +21,47 @@ const clearEdit = () => {
   const updatedRoute = { ...currentRoute, query: updatedQuery }
 
   router.replace(updatedRoute)
+}
+
+const id = computed(() => CompanyStore.selectedCompany[0]?.id ?? '')
+
+const cnpj = ref('')
+const email = ref('')
+const name = ref('')
+
+const { deleteCompany, updateCompany } = useCompanyList()
+const { errors, submitForm } = useForm(CompanyForm, (values) => {
+    updateCompany({ body: values, id: id.value })
+    clearEdit()
+})
+
+const open = computed(() => {
+  nextTick(() => {
+    cnpj.value = CompanyStore.selectedCompany[0]?.cnpj
+    email.value = CompanyStore.selectedCompany[0]?.email
+    name.value = CompanyStore.selectedCompany[0]?.name
+  })
+
+  return (  
+    ModalStore.edit &&
+    CompanyStore.selectedCompany[0]?.name &&
+    CompanyStore.selectedCompany[0]?.email &&
+    CompanyStore.selectedCompany[0]?.cnpj
+  )
+})
+
+const handleSubmit = (e: Event) => {
+  e.preventDefault()
+  submitForm({
+    cnpj: cnpj.value,
+    email: email.value,
+    name: name.value
+  })
+}
+
+const handleDelete = () => {
+  deleteCompany(id.value)
+  clearEdit()
 }
 </script>
 
@@ -76,7 +99,7 @@ const clearEdit = () => {
         <input
           name="company-name"
           className="border-2 border-gray-input p-2"
-          v-model="CompanyStore.selectedCompany[0].name"
+          v-model="name"
           placeholder="Digite o nome"
         />
       </div>
@@ -89,7 +112,7 @@ const clearEdit = () => {
           name="company-cnpj"
           className="border-2 border-gray-input p-2"
           placeholder="Digite o CNPJ"
-          v-model="CompanyStore.selectedCompany[0].cnpj"
+          v-model="cnpj"
           maxlength="14"
         />
       </div>
@@ -103,7 +126,7 @@ const clearEdit = () => {
         <input
           name="company-email"
           className="border-2 border-gray-input p-2"
-          v-model="CompanyStore.selectedCompany[0].email"
+          v-model="email"
           placeholder="Digite o e-mail"
         />
       </div>
@@ -111,7 +134,20 @@ const clearEdit = () => {
         errors?.email
       }}</span>
     </div>
-    <div className="flex items-center justify-end px-6">
+    <div className="flex items-center justify-between px-6">
+      <button
+        name="modal-delete"
+        type="reset"
+        className="rounded-opea border-2 border-gray-button p-1.5 hover:opacity-80"
+        @click="handleDelete"
+      >
+        <img
+          src="../../assets/images/delete-icn.svg"
+          width="16"
+          height="19"
+          alt="A trash can"
+        />
+      </button>
       <div className="flex gap-4">
         <button
           type="reset"

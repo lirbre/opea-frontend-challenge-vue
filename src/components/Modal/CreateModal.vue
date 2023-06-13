@@ -15,8 +15,23 @@ const name = ref('')
 
 const { createCompany } = useCompanyList()
 
+const clearCreate = () => {
+  if (!ModalStore.create) return
+
+  let updatedQuery = { ...currentRoute.query }
+
+  ModalStore.create = false
+  delete updatedQuery.create
+
+  const updatedRoute = { ...currentRoute, query: updatedQuery }
+
+  router.replace(updatedRoute)
+}
+
 const { errors, submitForm } = useForm(CompanyForm, (values) => {
   createCompany(values)
+
+  clearCreate()
 
   cnpj.value = ''
   email.value = ''
@@ -33,19 +48,6 @@ const handleSubmit = (e: Event) => {
 }
 
 const open = computed(() => ModalStore.create)
-
-const clearCreate = () => {
-  if (!ModalStore.create) return
-
-  let updatedQuery = { ...currentRoute.query }
-
-  ModalStore.create = false
-  delete updatedQuery.create
-
-  const updatedRoute = { ...currentRoute, query: updatedQuery }
-
-  router.replace(updatedRoute)
-}
 </script>
 
 <template>

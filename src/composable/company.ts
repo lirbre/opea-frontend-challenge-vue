@@ -22,3 +22,5 @@ export const CompanyAPI = z.array(
     cnpj: z.string()
   })
 )
+
+export type CompanyType = Zod.infer<typeof CompanyAPI>[number]
