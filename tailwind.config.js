@@ -17,6 +17,5 @@ export default {
         opea: '4px'
       }
     }
-  },
-  plugins: [require('daisyui')]
+  }
 }

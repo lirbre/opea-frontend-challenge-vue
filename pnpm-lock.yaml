@@ -14,6 +14,9 @@ dependencies:
   vue-router:
     specifier: ^4.2.2
     version: 4.2.2(vue@3.2.47)
+  zod:
+    specifier: ^3.21.4
+    version: 3.21.4
 
 devDependencies:
   '@typescript-eslint/eslint-plugin':
@@ -28,9 +31,6 @@ devDependencies:
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.24)
-  daisyui:
-    specifier: ^3.0.20
-    version: 3.0.20(postcss@8.4.24)
   eslint:
     specifier: ^8.42.0
     version: 8.42.0
@@ -1217,13 +1217,6 @@ packages:
       }
     dev: true
 
-  /colord@2.9.3:
-    resolution:
-      {
-        integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==
-      }
-    dev: true
-
   /commander@4.1.1:
     resolution:
       {
@@ -1251,16 +1244,6 @@ packages:
       which: 2.0.2
     dev: true
 
-  /css-selector-tokenizer@0.8.0:
-    resolution:
-      {
-        integrity: sha512-Jd6Ig3/pe62/qe5SBPTN8h8LeUg/pT4lLgtavPf7updwwHpvFzxvOQBHYj2LZDMjUnBzgvIUSjRcf6oT5HzHFg==
-      }
-    dependencies:
-      cssesc: 3.0.0
-      fastparse: 1.1.2
-    dev: true
-
   /cssesc@3.0.0:
     resolution:
       {
@@ -1275,24 +1258,6 @@ packages:
       {
         integrity: sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==
       }
-
-  /daisyui@3.0.20(postcss@8.4.24):
-    resolution:
-      {
-        integrity: sha512-EQ0ryTM/+YfkTaRPdUvolsA8pThYnrjjvj2IEXQg31dRVxrEh+ovx5iBknKPXO6XJh2auYYfPonHBN7P88DNeQ==
-      }
-    engines: { node: '>=16.9.0' }
-    peerDependencies:
-      postcss: ^8
-    dependencies:
-      colord: 2.9.3
-      css-selector-tokenizer: 0.8.0
-      postcss: 8.4.24
-      postcss-js: 4.0.1(postcss@8.4.24)
-      tailwindcss: 3.3.2
-    transitivePeerDependencies:
-      - ts-node
-    dev: true
 
   /de-indent@1.0.2:
     resolution:
@@ -1621,13 +1586,6 @@ packages:
     resolution:
       {
         integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==
-      }
-    dev: true
-
-  /fastparse@1.1.2:
-    resolution:
-      {
-        integrity: sha512-483XLLxTVIwWK3QTrMGRqUfUpoOs/0hbQrl2oz4J0pAcm3A3bu84wxTFqGqkJzewCLdME38xJLJAxBABfQT8sQ==
       }
     dev: true
 
@@ -2995,3 +2953,10 @@ packages:
       }
     engines: { node: '>=10' }
     dev: true
+
+  /zod@3.21.4:
+    resolution:
+      {
+        integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==
+      }
+    dev: false

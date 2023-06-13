@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { CompanyStore } from '../composable/CompanyStore'
+import { CompanyStore } from '../composable/stores/CompanyStore'
 import Company from './Company.vue'
 import CompanyCreate from './CompanyCreate.vue'
 import CompanyEmpty from './CompanyEmpty.vue'

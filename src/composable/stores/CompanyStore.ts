@@ -1,13 +1,15 @@
 import { reactive } from 'vue'
-import { CompanyType } from './company'
+import { CompanyAPI } from '../company'
 
 export const CompanyStore = reactive<{
-  company: CompanyType[]
+  company: Zod.infer<typeof CompanyAPI>[number][]
+  selectedCompany: Zod.infer<typeof CompanyAPI>[number][]
   loading: boolean
   search: string
   limit: number
 }>({
   company: [],
+  selectedCompany: [],
   loading: true,
   search: '',
   limit: 12

@@ -1,23 +1,22 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getUrlParams } from '../composable/getUrlParam'
+import { ModalStore } from '../composable/stores/ModalStore'
 
 const router = useRouter()
 const currentRoute = useRoute()
 
 const { create: initialCreate } = getUrlParams(window.location.search)
 
-const create = ref(Boolean(initialCreate) ?? false)
-
 const toggleCreate = () => {
   let updatedQuery = { ...currentRoute.query }
 
-  if (!create.value) {
-    create.value = true
+  if (!ModalStore.create) {
+    ModalStore.create = true
     updatedQuery.create = 'true'
   } else {
-    create.value = false
+    ModalStore.create = false
     delete updatedQuery.create
   }
 
@@ -25,6 +24,8 @@ const toggleCreate = () => {
 
   router.replace(updatedRoute)
 }
+
+onMounted(() => (ModalStore.create = Boolean(initialCreate)))
 </script>
 
 <template>

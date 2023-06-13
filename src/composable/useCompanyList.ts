@@ -1,4 +1,5 @@
-import { CompanyStore } from './CompanyStore'
+import { CompanyAPI } from './company'
+import { CompanyStore } from './stores/CompanyStore'
 
 export const useCompanyList = () => {
   const fetchData = async (search?: string) => {
@@ -9,7 +10,9 @@ export const useCompanyList = () => {
     ).then(async (res) => {
       const data = await res.json()
 
-      CompanyStore.company = data
+      const parsed = CompanyAPI.safeParse(data)
+
+      CompanyStore.company = parsed.success ? parsed.data : []
       CompanyStore.loading = false
     })
   }
@@ -22,7 +25,9 @@ export const useCompanyList = () => {
     ).then(async (res) => {
       const data = await res.json()
 
-      CompanyStore.company = data
+      const parsed = CompanyAPI.safeParse(data)
+
+      CompanyStore.company = parsed.success ? parsed.data : []
     })
   }
 

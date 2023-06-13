@@ -1,26 +1,32 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { CompanyType } from '../composable/company'
 import { maskCnpj } from '../composable/maskCnpj'
+import { CompanyAPI } from '../composable/company'
+import { ModalStore } from '../composable/stores/ModalStore'
+import { onMounted } from 'vue'
+import { getUrlParams } from '../composable/getUrlParam'
+import { CompanyStore } from '../composable/stores/CompanyStore'
 
 const props = defineProps<{
-  company: CompanyType
+  company: Zod.infer<typeof CompanyAPI>[number]
 }>()
-
-const editing = ref(false)
 
 const router = useRouter()
 const currentRoute = useRoute()
 
+const { edit: initialEdit } = getUrlParams(window.location.search)
+
 const handleEdit = () => {
   let updatedQuery = { ...currentRoute.query }
 
-  if (!editing.value) {
-    editing.value = true
+  if (!ModalStore.edit) {
+    ModalStore.edit = true
     updatedQuery.edit = props.company.id
+    CompanyStore.selectedCompany = CompanyStore.company.filter(
+      (item) => item.id === props.company.id
+    )
   } else {
-    editing.value = false
+    ModalStore.edit = false
     delete updatedQuery.edit
   }
 
@@ -28,6 +34,10 @@ const handleEdit = () => {
 
   router.replace(updatedRoute)
 }
+
+onMounted(() => {
+  ModalStore.edit = Boolean(initialEdit)
+})
 </script>
 
 <template>

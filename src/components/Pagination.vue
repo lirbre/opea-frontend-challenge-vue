@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { CompanyStore } from '../composable/CompanyStore'
+import { CompanyStore } from '../composable/stores/CompanyStore'
 import { getUrlParams } from '../composable/getUrlParam'
 
 const router = useRouter()
