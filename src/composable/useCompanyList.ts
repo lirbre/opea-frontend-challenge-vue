@@ -5,7 +5,7 @@ import { CompanyStore } from './stores/CompanyStore'
 export const useCompanyList = () => {
   const fetchData = async (search?: string) =>
     fetch(
-      `https://homolog.planetasec.com.br/prova/front/api/clients${
+      `https://outros.opea-uat.solutions/prova/front/api/clients${
         search ? '?text=' + search : ''
       }`
     ).then(async (res) => {
@@ -21,7 +21,7 @@ export const useCompanyList = () => {
 
   const refetchData = async (search?: string) =>
     fetch(
-      `https://homolog.planetasec.com.br/prova/front/api/clients${
+      `https://outros.opea-uat.solutions/prova/front/api/clients${
         search ? '?text=' + search : ''
       }`
     ).then(async (res) => {
@@ -36,7 +36,7 @@ export const useCompanyList = () => {
 
   const createCompany = async (body: Zod.infer<typeof CompanyForm>) => {
     try {
-      await fetch('https://homolog.planetasec.com.br/prova/front/api/clients', {
+      await fetch('https://outros.opea-uat.solutions/prova/front/api/clients', {
         body: JSON.stringify({ ...body }),
         method: 'POST',
         headers: {
@@ -59,7 +59,7 @@ export const useCompanyList = () => {
     id: string
   }) => {
     try {
-      await fetch('https://homolog.planetasec.com.br/prova/front/api/clients/' + id, {
+      await fetch('https://outros.opea-uat.solutions/prova/front/api/clients/' + id, {
         body: JSON.stringify({ ...body }),
         method: 'PUT',
         headers: {
@@ -77,7 +77,7 @@ export const useCompanyList = () => {
   const deleteCompany = async (id: string) => {
     try {
       await fetch(
-        'https://homolog.planetasec.com.br/prova/front/api/clients/' + id,
+        'https://outros.opea-uat.solutions/prova/front/api/clients/' + id,
         {
           body: JSON.stringify({ id }),
           method: 'DELETE',
